@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Lista de Tarefas • localStorage</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script defer src="app.js"></script>
+  </head>
+  <body>
+    <nav class="navbar">
+      <div class="container nav-inner">
+        <h1 class="brand">Lista de Tarefas</h1>
+        <div class="nav-right">
+          <span class="nav-pill">localStorage</span>
+        </div>
+      </div>
+    </nav>
+
+    <header class="site-header">
+      <div class="container header-inner">
+          <div class="status-card" aria-live="polite">
+          <div class="status-count">
+            <span id="count-pendentes">0</span>
+            <span class="muted">pendente(s)</span>
+          </div>
+          <div class="muted">Total: <span id="count-total">0</span></div>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <div class="layout">        
+        <section class="card card-new">
+          <div class="card-header">
+            <h2 class="card-title">Nova tarefa</h2>
+            <p class="card-desc">Preencha os campos e adicione à sua lista.</p>
+          </div>
+          <form id="form-nova" class="card-body grid-compact" autocomplete="off">
+            <div class="field">
+              <label for="titulo" class="label">Título</label>
+              <input id="titulo" name="titulo" class="input" placeholder="Ex.: Estudar para a prova" required />
+            </div>
+            <div class="field">
+              <label for="notas" class="label">Notas</label>
+              <textarea id="notas" name="notas" class="textarea" rows="3" placeholder="Detalhes ou passos da tarefa"></textarea>
+            </div>
+            <div class="row-2">
+              <div class="field">
+                <label for="prazo" class="label">Prazo</label>
+                <input id="prazo" name="prazo" type="date" class="input" />
+              </div>
+              <div class="field">
+                <label for="prioridade" class="label">Prioridade</label>
+                <select id="prioridade" name="prioridade" class="input">
+                  <option value="média" selected>Média</option>
+                  <option value="alta">Alta</option>
+                  <option value="baixa">Baixa</option>
+                </select>
+              </div>
+            </div>
+            <button class="btn btn-primary" type="submit" id="btn-add">Adicionar tarefa</button>
+          </form>
+        </section>
+
+        <section class="card card-prefs">
+          <div class="card-header">
+            <h2 class="card-title">Preferências</h2>
+            <p class="card-desc">Suas preferências ficam salvas no navegador.</p>
+          </div>
+          <div class="card-body prefs">
+            <label class="toggle">
+              <input type="checkbox" id="pref-ocultar" />
+              <span>Ocultar concluídas</span>
+            </label>
+            <div class="field">
+              <label for="pref-ordenar" class="label">Ordenar por</label>
+              <select id="pref-ordenar" class="input">
+                <option value="prazo">Prazo</option>
+                <option value="prioridade">Prioridade</option>
+                <option value="criadaEm">Mais recente</option>
+              </select>
+            </div>
+            <label class="toggle">
+              <input type="checkbox" id="pref-denso" />
+              <span>Modo denso</span>
+            </label>
+          </div>
+        </section>
+
+        <section class="card card-list">
+          <div class="card-header">
+            <h2 class="card-title">Sua lista</h2>
+            <p class="card-desc">Pesquise, marque como concluída, edite e exclua.</p>
+          </div>
+          <div class="card-body">
+            <div class="toolbar">
+              <input id="busca" class="input" placeholder="Pesquisar por título ou notas..." />
+              <button id="btn-limpar-concluidas" class="btn btn-ghost" type="button" disabled>
+                Limpar concluídas
+              </button>
+            </div>
+            <div id="vazio" class="empty muted hidden">
+              Nenhuma tarefa encontrada. Adicione uma nova ou ajuste os filtros.
+            </div>
+            <ul id="lista" class="lista" aria-live="polite"></ul>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <dialog id="dlg-editar" class="dialog">
+      <form method="dialog" id="form-editar" class="dialog-card" autocomplete="off">
+        <header class="dialog-header"><h3>Editar tarefa</h3></header>
+        <div class="dialog-body grid-compact">
+          <div class="field"><label for="edit-titulo" class="label">Título</label><input id="edit-titulo" class="input" required /></div>
+          <div class="field"><label for="edit-notas" class="label">Notas</label><textarea id="edit-notas" class="textarea" rows="3"></textarea></div>
+          <div class="row-2">
+            <div class="field"><label for="edit-prazo" class="label">Prazo</label><input id="edit-prazo" type="date" class="input" /></div>
+            <div class="field"><label for="edit-prioridade" class="label">Prioridade</label>
+              <select id="edit-prioridade" class="input">
+                <option value="alta">Alta</option><option value="média">Média</option><option value="baixa">Baixa</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <footer class="dialog-footer">
+          <button class="btn btn-ghost" value="cancel">Cancelar</button>
+          <button class="btn btn-primary" id="btn-salvar-edicao" value="confirm">Salvar</button>
+        </footer>
+      </form>
+    </dialog>
+
+  </body>
+</html>
